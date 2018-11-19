@@ -1,0 +1,38 @@
+#
+# 测试：docker-compose up
+#
+version: "3.2"
+services:
+  zookeeper1:
+    build:
+      context: .
+      dockerfile: ./zookeeper/Dockerfile
+      args:
+        - myid=1
+        - client_port=2181
+    ports:
+      - 2181:2181
+      - 3181:3181
+    command: /home/zookeeper/zookeeper/bin/zkServer.sh start-foreground
+  zookeeper2:
+    build:
+      context: .
+      dockerfile: ./zookeeper/Dockerfile
+      args:
+        - myid=2
+        - client_port=2182
+    ports:
+      - 2182:2182
+      - 3182:3182
+    command: /home/zookeeper/zookeeper/bin/zkServer.sh start-foreground
+  zookeeper3:
+    build:
+      context: .
+      dockerfile: ./zookeeper/Dockerfile
+      args:
+        - myid=3
+        - client_port=2183
+    ports:
+      - 2183:2183
+      - 3183:3183
+    command: /home/zookeeper/zookeeper/bin/zkServer.sh start-foreground
