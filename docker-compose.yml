@@ -8,31 +8,34 @@ services:
       context: .
       dockerfile: ./zookeeper/Dockerfile
       args:
-        - myid=1
         - client_port=2181
     ports:
       - 2181:2181
       - 3181:3181
     command: /home/zookeeper/zookeeper/bin/zkServer.sh start-foreground
+    volumes:
+      - /zookeeper/s1:/home/zookeeper/data_dir
   zookeeper2:
     build:
       context: .
       dockerfile: ./zookeeper/Dockerfile
       args:
-        - myid=2
         - client_port=2182
     ports:
       - 2182:2182
       - 3182:3182
     command: /home/zookeeper/zookeeper/bin/zkServer.sh start-foreground
+    volumes:
+      - /zookeeper/s2:/home/zookeeper/data_dir
   zookeeper3:
     build:
       context: .
       dockerfile: ./zookeeper/Dockerfile
       args:
-        - myid=3
         - client_port=2183
     ports:
       - 2183:2183
       - 3183:3183
     command: /home/zookeeper/zookeeper/bin/zkServer.sh start-foreground
+    volumes:
+      - /zookeeper/s3:/home/zookeeper/data_dir

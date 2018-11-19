@@ -4,7 +4,6 @@
 FROM ubuntu:xenial
 EXPOSE 2181
 
-ARG myid
 ARG client_port
 
 ADD ./common/sources.list /etc/apt/sources.list
@@ -15,7 +14,6 @@ RUN apt-get install -y openjdk-8-jdk apt-transport-https
 
 WORKDIR /home/zookeeper
 RUN mkdir data_dir
-RUN echo $myid >> ./data_dir/myid
 
 ADD ./common/zookeeper.tar.gz .
 RUN mv zookeeper* zookeeper
