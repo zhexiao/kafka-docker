@@ -1,22 +1,18 @@
 #
-# docker build -t zookeeper -f zookeeper/Dockerfile .
+# docker build -t kafka -f kafka/Dockerfile .
 #
+
 FROM ubuntu:xenial
-EXPOSE 9092
 
 ADD ./common/sources.list /etc/apt/sources.list
-RUN apt-get -y update && apt-get -y update --fix-missing
+RUN apt-get -y update && apt-get -y update --fix-missing && apt-get -y update
 
 # JAVA环境
 RUN apt-get install -y openjdk-8-jdk apt-transport-https
 
-WORKDIR /home/kafka
-ADD ./common/kafka.tgz .
-RUN mv kafka* kafka
+# 创建用户
+RUN groupadd -r kafka && useradd -r -l -d /home/kafka -g kafka -m kafka
 
-ADD ./kafka/server.properties kafka/config/
-
-RUN chown -R root:root kafka
 
 
 

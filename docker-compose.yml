@@ -1,16 +1,33 @@
 #
-# 测试：docker-compose up --build
+# 测试：docker-compose up
 #
 version: "3.4"
+
+# (https://docs.docker.com/compose/compose-file/#extension-fields)
+x-volumes:
+  &zookeeper-volumes
+  - /opt/zookeeper/zookeeper-3.4.13:/home/zookeeper
+  - ./zookeeper/conf/zoo.cfg:/home/zookeeper/conf/zoo.cfg
 
 x-command:
   &zookeeper-run
   /home/zookeeper/bin/zkServer.sh start-foreground
 
 x-volumes:
-  &zookeeper-volumes
-  - /opt/zookeeper/zookeeper-3.4.13:/home/zookeeper
-  - ./zookeeper/conf/zoo.cfg:/home/zookeeper/conf/zoo.cfg
+  &kafka-home-dir
+  /opt/kafka/kafka_2.11-2.0.0:/home/kafka
+
+x-command:
+  &kafka-run-1
+  /home/kafka/bin/kafka-server-start.sh /home/kafka/config/server.properties.1
+
+x-command:
+  &kafka-run-2
+  /home/kafka/bin/kafka-server-start.sh /home/kafka/config/server.properties.2
+
+x-command:
+  &kafka-run-3
+  /home/kafka/bin/kafka-server-start.sh /home/kafka/config/server.properties.3
 
 services:
   zookeeper:
@@ -19,12 +36,36 @@ services:
       - 2181:2181
     command: *zookeeper-run
     volumes: *zookeeper-volumes
-#  kafka:
-#    build:
-#      context: .
-#      dockerfile: ./kafka/Dockerfile
-#    ports:
-#      - 9092:9092
-#    command: /home/kafka/kafka/bin/kafka-server-start.sh /home/kafka/kafka/config/server.properties
-#    depends_on:
-#      - zookeeper
+
+  kafka1:
+    image: kafka:latest
+    ports:
+      - 9091:9091
+    command: *kafka-run-1
+    volumes:
+      - *kafka-home-dir
+      - ./kafka/conf/server.properties.1:/home/kafka/config/server.properties.1
+    depends_on:
+      - zookeeper
+
+  kafka2:
+    image: kafka:latest
+    ports:
+      - 9092:9092
+    command: *kafka-run-2
+    volumes:
+      - *kafka-home-dir
+      - ./kafka/conf/server.properties.2:/home/kafka/config/server.properties.2
+    depends_on:
+      - zookeeper
+
+  kafka3:
+    image: kafka:latest
+    ports:
+      - 9093:9093
+    command: *kafka-run-3
+    volumes:
+      - *kafka-home-dir
+      - ./kafka/conf/server.properties.3:/home/kafka/config/server.properties.3
+    depends_on:
+      - zookeeper

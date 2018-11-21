@@ -18,7 +18,7 @@
 ############################# Server Basics #############################
 
 # The id of the broker. This must be set to a unique integer for each broker.
-broker.id=0
+broker.id=3
 
 ############################# Socket Server Settings #############################
 
@@ -28,12 +28,12 @@ broker.id=0
 #     listeners = listener_name://host_name:port
 #   EXAMPLE:
 #     listeners = PLAINTEXT://your.host.name:9092
-listeners=PLAINTEXT://:9092
+listeners=PLAINTEXT://:9093
 
 # Hostname and port the broker will advertise to producers and consumers. If not set, 
 # it uses the value for "listeners" if configured.  Otherwise, it will use the value
 # returned from java.net.InetAddress.getCanonicalHostName().
-advertised.listeners=PLAINTEXT://192.168.33.33:9092
+advertised.listeners=PLAINTEXT://192.168.33.33:9093
 
 # Maps listener names to security protocols, the default is for them to be the same. See the config documentation for more details
 #listener.security.protocol.map=PLAINTEXT:PLAINTEXT,SSL:SSL,SASL_PLAINTEXT:SASL_PLAINTEXT,SASL_SSL:SASL_SSL
@@ -57,7 +57,7 @@ socket.request.max.bytes=104857600
 ############################# Log Basics #############################
 
 # A comma separated list of directories under which to store log files
-log.dirs=/tmp/kafka-logs
+log.dirs=/home/kafka/runtime-log/server-logs-3
 
 # The default number of log partitions per topic. More partitions allow greater
 # parallelism for consumption, but this will also result in more files across
