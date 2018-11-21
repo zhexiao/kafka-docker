@@ -2,26 +2,15 @@
 # docker build -t zookeeper -f zookeeper/Dockerfile .
 #
 FROM ubuntu:xenial
-EXPOSE 2181
-
-ARG client_port
 
 ADD ./common/sources.list /etc/apt/sources.list
-RUN apt-get -y update && apt-get -y update --fix-missing
+RUN apt-get -y update && apt-get -y update --fix-missing && apt-get -y update
 
 # JAVA环境
 RUN apt-get install -y openjdk-8-jdk apt-transport-https
 
-WORKDIR /home/zookeeper
-RUN mkdir data_dir
-
-ADD ./common/zookeeper.tar.gz .
-RUN mv zookeeper* zookeeper
-ADD ./zookeeper/zoo.cfg zookeeper/conf/
-RUN echo "clientPort=$client_port" >> zookeeper/conf/zoo.cfg
-RUN chown -R root:root zookeeper
-
-
+# 创建用户
+RUN groupadd -r zookeeper && useradd -r -l -d /home/zookeeper -g zookeeper -m zookeeper
 
 
 

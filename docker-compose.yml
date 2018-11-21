@@ -1,41 +1,30 @@
 #
-# 测试：docker-compose up
+# 测试：docker-compose up --build
 #
-version: "3.2"
+version: "3.4"
+
+x-command:
+  &zookeeper-run
+  /home/zookeeper/bin/zkServer.sh start-foreground
+
+x-volumes:
+  &zookeeper-volumes
+  - /opt/zookeeper/zookeeper-3.4.13:/home/zookeeper
+  - ./zookeeper/conf/zoo.cfg:/home/zookeeper/conf/zoo.cfg
+
 services:
-  zookeeper1:
-    build:
-      context: .
-      dockerfile: ./zookeeper/Dockerfile
-      args:
-        - client_port=2181
+  zookeeper:
+    image: zookeeper:latest
     ports:
       - 2181:2181
-      - 3181:3181
-    command: /home/zookeeper/zookeeper/bin/zkServer.sh start-foreground
-    volumes:
-      - /zookeeper/s1:/home/zookeeper/data_dir
-  zookeeper2:
-    build:
-      context: .
-      dockerfile: ./zookeeper/Dockerfile
-      args:
-        - client_port=2182
-    ports:
-      - 2182:2182
-      - 3182:3182
-    command: /home/zookeeper/zookeeper/bin/zkServer.sh start-foreground
-    volumes:
-      - /zookeeper/s2:/home/zookeeper/data_dir
-  zookeeper3:
-    build:
-      context: .
-      dockerfile: ./zookeeper/Dockerfile
-      args:
-        - client_port=2183
-    ports:
-      - 2183:2183
-      - 3183:3183
-    command: /home/zookeeper/zookeeper/bin/zkServer.sh start-foreground
-    volumes:
-      - /zookeeper/s3:/home/zookeeper/data_dir
+    command: *zookeeper-run
+    volumes: *zookeeper-volumes
+#  kafka:
+#    build:
+#      context: .
+#      dockerfile: ./kafka/Dockerfile
+#    ports:
+#      - 9092:9092
+#    command: /home/kafka/kafka/bin/kafka-server-start.sh /home/kafka/kafka/config/server.properties
+#    depends_on:
+#      - zookeeper
