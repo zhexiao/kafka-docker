@@ -11,18 +11,12 @@ $ sudo chmod -R 777 /opt/zookeeper/
 $ tar -zxvf zookeeper-3.4.13.tar.gz -C /opt/zookeeper/
 
 # 创建数据目录
-$ cd /opt/zookeeper/zookeeper-3.4.13
-$ mkdir data_dir
+$ mkdir /opt/zookeeper/zookeeper-3.4.13/data_dir
 ```
 
-## 配置 zoo.cfg
-```
-$ cp conf/zoo_sample.cfg conf/zoo.cfg
-$ vi conf/zoo.cfg
-"""
-dataDir=/opt/zookeeper/zookeeper-3.4.13/data_dir
-"""
-```
+## 配置 conf/zoo.cfg
+按需配置服务，下面是自定义的配置：
+1. dataDir=/opt/zookeeper/zookeeper-3.4.13/data_dir
 
 ## 创建image
 ```
@@ -51,13 +45,13 @@ $ cd kafka-docker
 $ docker build -t kafka -f kafka/Dockerfile .
 ```
 
-## 配置 server.properties
-```
+## 配置 conf/server.properties
+按需配置服务，下面是自定义的配置：
 1. broker.id=1
 2. listeners=PLAINTEXT://:9092
 3. advertised.listeners=PLAINTEXT://host_ip:9092
-4. zookeeper.connect=zk_ip:zk_port
-```
+4. zookeeper.connect=host_ip:2181
+
 
 ## QA
 如果有kakfa启动失败，记得清除下 runtime-log 里面的日志数据。
@@ -72,10 +66,10 @@ $ docker-compose up
 $ cd /opt/kafka/kafka_2.11-2.0.0/
 
 # 创建topic
-$ bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 3 --partitions 1 --topic zhexiao
-$ bin/kafka-topics.sh --describe --zookeeper localhost:2181 --topic zhexiao
+$ bin/kafka-topics.sh --create --zookeeper host_ip:2181 --replication-factor 3 --partitions 1 --topic question_view_count
+$ bin/kafka-topics.sh --describe --zookeeper host_ip:2181 --topic question_view_count
 
 # 消息测试
-$ bin/kafka-console-producer.sh --broker-list localhost:9092 --topic test
-$ bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic test --from-beginning
+$ bin/kafka-console-producer.sh --broker-list host_ip:9092 --topic test
+$ bin/kafka-console-consumer.sh --bootstrap-server host_ip:9092 --topic test --from-beginning
 ```
