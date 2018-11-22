@@ -73,3 +73,8 @@ $ bin/kafka-topics.sh --describe --zookeeper host_ip:2181 --topic question_view_
 $ bin/kafka-console-producer.sh --broker-list host_ip:9092 --topic test
 $ bin/kafka-console-consumer.sh --bootstrap-server host_ip:9092 --topic test --from-beginning
 ```
+
+# 部署服务
+```
+$ docker stack deploy -c docker-compose.yml kafka_v1
+```
