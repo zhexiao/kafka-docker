@@ -16,7 +16,7 @@ $ mkdir /opt/zookeeper/zookeeper-3.4.13/data_dir
 
 ## 配置 conf/zoo.cfg
 按需配置服务，下面是自定义的配置：
-1. dataDir=/opt/zookeeper/zookeeper-3.4.13/data_dir
+1. dataDir=/home/zookeeper/data_dir
 
 ## 创建image
 ```
