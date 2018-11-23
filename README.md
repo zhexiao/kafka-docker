@@ -49,6 +49,11 @@ $ docker build -t kafka -f kafka/Dockerfile .
 ```
 
 ## 配置 conf/server.properties
+```
+$ cp server.properties.example server.properties.1
+$ cp server.properties.example server.properties.2
+$ cp server.properties.example server.properties.3
+```
 按需配置服务，下面是自定义的配置：
 1. broker.id=1
 2. listeners=PLAINTEXT://:9092
