@@ -21,6 +21,8 @@ $ cp zoo.cfg.example zoo.cfg
 按需配置服务，下面是自定义的配置：
 1. dataDir=/home/zookeeper/data_dir
 
+注：保证配置里面的端口号与docker-compose.yml里面的port对应上。
+
 ## 创建image
 ```
 $ cd kafka-docker
@@ -60,6 +62,8 @@ $ cp server.properties.example server.properties.3
 3. advertised.listeners=PLAINTEXT://host_ip:port
 4. log.dirs
 5. zookeeper.connect=host_ip:2181
+
+注：保证配置里面的端口号与docker-compose.yml里面的port对应上。
 
 
 ## QA
