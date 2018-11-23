@@ -55,10 +55,11 @@ $ cp server.properties.example server.properties.2
 $ cp server.properties.example server.properties.3
 ```
 按需配置服务，下面是自定义的配置：
-1. broker.id=1
-2. listeners=PLAINTEXT://:9092
-3. advertised.listeners=PLAINTEXT://host_ip:9092
-4. zookeeper.connect=host_ip:2181
+1. broker.id
+2. listeners=PLAINTEXT://:port
+3. advertised.listeners=PLAINTEXT://host_ip:port
+4. log.dirs
+5. zookeeper.connect=host_ip:2181
 
 
 ## QA
