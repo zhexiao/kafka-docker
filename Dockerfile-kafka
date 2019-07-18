@@ -1,0 +1,13 @@
+#
+# docker build -t kafka -f Dockerfile-kafka .
+#
+FROM java-base:latest
+
+# ENV
+ENV KAFKA_VERSION=kafka_2.12-2.3.0
+
+WORKDIR /kafka
+ADD ./pkg/${KAFKA_VERSION}.tgz .
+
+# ENV
+ENV KAFKA_HOME=/kafka/${KAFKA_VERSION}

@@ -1,0 +1,13 @@
+#
+# docker build -t zookeeper -f Dockerfile-zookeeper .
+#
+FROM java-base:latest
+
+# ENV
+ENV ZOOKEEPER_VERSION=apache-zookeeper-3.5.5
+
+WORKDIR /zookeeper
+ADD ./pkg/${ZOOKEEPER_VERSION}.tar.gz .
+
+# ENV
+ENV ZOOKEEPER_HOME=/zookeeper/${ZOOKEEPER_VERSION}

@@ -1,8 +1,17 @@
 # kafka-docker
 使用docker管理kafka集群
 
-# Zookeeper
-我们使用的版本号是3.4.13（http://mirrors.hust.edu.cn/apache/zookeeper/zookeeper-3.4.13/）。
+# 下载安装包到PKG目录
+kafka: http://mirrors.tuna.tsinghua.edu.cn/apache/kafka/2.3.0/kafka_2.12-2.3.0.tgz
+zookeeper: https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper/zookeeper-3.5.5/apache-zookeeper-3.5.5.tar.gz
+
+# 安装镜像
+```
+$ docker build -t java-base -f Dockerfile-java-base .
+$ docker build -t zookeeper -f Dockerfile-zookeeper .
+$ docker build -t kafka -f Dockerfile-kafka .
+```
+
 
 ## 解压包 
 ```
