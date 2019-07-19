@@ -4,10 +4,18 @@
 FROM java-base:latest
 
 # ENV
-ENV ZOOKEEPER_VERSION=apache-zookeeper-3.5.5
+ENV ZOOKEEPER_VERSION=zookeeper-3.4.14
 
 WORKDIR /zookeeper
 ADD ./pkg/${ZOOKEEPER_VERSION}.tar.gz .
 
+
 # ENV
 ENV ZOOKEEPER_HOME=/zookeeper/${ZOOKEEPER_VERSION}
+ENV ZOOKEEPER_DATA_DIR=/zookeeper/data
+
+# 创建数据文件夹
+RUN mkdir ${ZOOKEEPER_DATA_DIR}
+
+COPY zoo.cfg ${ZOOKEEPER_HOME}/conf/
+CMD ${ZOOKEEPER_HOME}/bin/zkServer.sh start-foreground

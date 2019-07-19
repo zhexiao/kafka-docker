@@ -11,3 +11,6 @@ ADD ./pkg/${KAFKA_VERSION}.tgz .
 
 # ENV
 ENV KAFKA_HOME=/kafka/${KAFKA_VERSION}
+
+COPY server.properties.example ${KAFKA_HOME}/config/server.properties
+CMD ${KAFKA_HOME}/bin/kafka-server-start.sh ${KAFKA_HOME}/config/server.properties

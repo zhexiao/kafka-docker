@@ -17,49 +17,24 @@ x-deploy:
     condition: any
     delay: 10s
 
-x-volumes:
-  &zookeeper-volumes
-  - /opt/zookeeper/zookeeper-3.4.13:/home/zookeeper
-  - ./zookeeper/conf/zoo.cfg:/home/zookeeper/conf/zoo.cfg
-
-x-command:
-  &zookeeper-run
-  /home/zookeeper/bin/zkServer.sh start-foreground
-
-x-volumes:
-  &kafka-home-dir
-  /opt/kafka/kafka_2.11-2.0.0:/home/kafka
-
-x-command:
-  &kafka-run-1
-  /home/kafka/bin/kafka-server-start.sh /home/kafka/config/server.properties.1
-
-x-command:
-  &kafka-run-2
-  /home/kafka/bin/kafka-server-start.sh /home/kafka/config/server.properties.2
-
-x-command:
-  &kafka-run-3
-  /home/kafka/bin/kafka-server-start.sh /home/kafka/config/server.properties.3
-
 services:
   zookeeper:
     image: zookeeper:latest
+    container_name: zookeeper
     ports:
       - 2181:2181
-    command: *zookeeper-run
-    volumes: *zookeeper-volumes
+    volumes: 
+      - /opt/zookeeper/data:/zookeeper/data
     deploy: *default-deploy
     logging: *default-logging
 
   kafka1:
     image: kafka:latest
+    container_name: kafka1
     ports:
-      - 9091:9091
-    command: *kafka-run-1
+      - 9091:9092
     volumes:
-      - *kafka-home-dir
-      - ./kafka/conf/server.properties.1:/home/kafka/config/server.properties.1
+      - ./server.properties.1:/kafka/kafka_2.12-2.3.0/config/server.properties
     deploy: *default-deploy
     logging: *default-logging
     depends_on:
@@ -67,12 +42,11 @@ services:
 
   kafka2:
     image: kafka:latest
+    container_name: kafka2
     ports:
       - 9092:9092
-    command: *kafka-run-2
     volumes:
-      - *kafka-home-dir
-      - ./kafka/conf/server.properties.2:/home/kafka/config/server.properties.2
+      - ./server.properties.2:/kafka/kafka_2.12-2.3.0/config/server.properties
     deploy: *default-deploy
     logging: *default-logging
     depends_on:
@@ -80,12 +54,11 @@ services:
 
   kafka3:
     image: kafka:latest
+    container_name: kafka3
     ports:
-      - 9093:9093
-    command: *kafka-run-3
+      - 9093:9092
     volumes:
-      - *kafka-home-dir
-      - ./kafka/conf/server.properties.3:/home/kafka/config/server.properties.3
+      - ./server.properties.3:/kafka/kafka_2.12-2.3.0/config/server.properties
     deploy: *default-deploy
     logging: *default-logging
     depends_on:
