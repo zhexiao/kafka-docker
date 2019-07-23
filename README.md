@@ -1,6 +1,30 @@
 # kafka-docker
 使用docker管理kafka集群
 
+# Zookeeper
+拉取对应的镜像
+```
+$ docker pull zookeeper:3.4.14
+```
+
+使用docker-compose.yml启动ZK集群
+```
+$ docker-compose -f docker-compose-zk.yml up
+```
+
+测试集群
+```
+$ docker network ls
+$ docker run -it \
+		--rm \
+        --link zoo1:zk1 \
+        --link zoo2:zk2 \
+        --link zoo3:zk3 \
+        --net kafka-docker_mynet1 \
+        zookeeper /zookeeper/zookeeper-3.4.14/bin/zkCli.sh -server zk1:2181,zk2:2181,zk3:2181
+```
+
+
 # 下载安装包到PKG目录
 1. kafka: http://mirrors.tuna.tsinghua.edu.cn/apache/kafka/2.3.0/kafka_2.12-2.3.0.tgz
 2. zookeeper: https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper/zookeeper-3.4.14/zookeeper-3.4.14.tar.gz
