@@ -4,7 +4,7 @@
 # Zookeeper
 拉取对应的镜像
 ```
-$ docker pull zookeeper:3.4.14
+$ docker pull zookeeper:3.5.5
 ```
 
 使用docker-compose.yml启动ZK集群
@@ -12,16 +12,11 @@ $ docker pull zookeeper:3.4.14
 $ docker-compose -f docker-compose-zk.yml up
 ```
 
-测试集群
+集群状态
 ```
-$ docker network ls
-$ docker run -it \
-	--rm \
-    	--link zoo1:zk1 \
-   	--link zoo2:zk2 \
-    	--link zoo3:zk3 \
-    	--net kafka-docker_mynet1 \
-    	zookeeper /zookeeper/zookeeper-3.4.14/bin/zkCli.sh -server zk1:2181,zk2:2181,zk3:2181
+$ docker exec -it zoo1 /apache-zookeeper-3.5.5-bin/bin/zkServer.sh status
+$ docker exec -it zoo2 /apache-zookeeper-3.5.5-bin/bin/zkServer.sh status
+$ docker exec -it zoo3 /apache-zookeeper-3.5.5-bin/bin/zkServer.sh status
 ```
 
 

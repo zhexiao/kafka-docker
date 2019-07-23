@@ -1,62 +1,47 @@
-#
-# 测试：docker-compose up
-#
-version: "3.4"
-
 # (https://docs.docker.com/compose/compose-file/#extension-fields)
-x-logging:
-  &default-logging
-  driver: json-file
-  options:
-    max-size: '12m'
-    max-file: '5'
-
-x-deploy:
-  &default-deploy
-  restart_policy:
-    condition: any
-    delay: 10s
+version: '3.4'
 
 services:
   zoo1:
-    image: zookeeper:latest
+    image: zookeeper:3.5.5
     container_name: zoo1
     hostname: zoo1
     ports:
       - 2181:2181
     environment:
-      - ZOO_MY_ID=1
-      - ZOO_SERVERS=server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888
-    deploy: *default-deploy
-    logging: *default-logging
+      ZOO_MY_ID: 1
+      ZOO_SERVERS: server.1=0.0.0.0:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=zoo3:2888:3888;2181
+    restart: always
     networks:
       - "mynet1"
-      
+
   zoo2:
-    image: zookeeper:latest
-    container_name: zoo2
+    image: zookeeper:3.5.5
     hostname: zoo2
+    container_name: zoo2
     ports:
       - 2182:2181
     environment:
-      - ZOO_MY_ID=2
-      - ZOO_SERVERS=server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888
-    deploy: *default-deploy
-    logging: *default-logging
+      ZOO_MY_ID: 2
+      ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=0.0.0.0:2888:3888;2181 server.3=zoo3:2888:3888;2181
+    restart: always
+    depends_on:
+      - zoo1
     networks:
       - "mynet1"
 
   zoo3:
-    image: zookeeper:latest
-    container_name: zoo3
+    image: zookeeper:3.5.5
     hostname: zoo3
+    container_name: zoo3
     ports:
       - 2183:2181
     environment:
-      - ZOO_MY_ID=3
-      - ZOO_SERVERS=server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888
-    deploy: *default-deploy
-    logging: *default-logging
+      ZOO_MY_ID: 3
+      ZOO_SERVERS: server.1=zoo1:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=0.0.0.0:2888:3888;2181
+    restart: always
+    depends_on:
+      - zoo2
     networks:
       - "mynet1"
 
