@@ -16,12 +16,12 @@ $ docker-compose -f docker-compose-zk.yml up
 ```
 $ docker network ls
 $ docker run -it \
-		--rm \
-        --link zoo1:zk1 \
-        --link zoo2:zk2 \
-        --link zoo3:zk3 \
-        --net kafka-docker_mynet1 \
-        zookeeper /zookeeper/zookeeper-3.4.14/bin/zkCli.sh -server zk1:2181,zk2:2181,zk3:2181
+	--rm \
+    --link zoo1:zk1 \
+    --link zoo2:zk2 \
+    --link zoo3:zk3 \
+    --net kafka-docker_mynet1 \
+    zookeeper /zookeeper/zookeeper-3.4.14/bin/zkCli.sh -server zk1:2181,zk2:2181,zk3:2181
 ```
 
 
