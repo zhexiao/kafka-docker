@@ -15,6 +15,7 @@ NOT_ALLOWED_ENV="|KAFKA_VERSION|KAFKA_HOME|KAFKA_DEBUG|KAFKA_GC_LOG_OPTS|KAFKA_H
 # 循环系统环境变量
 for env_var in $(env)
 do
+
 env_name=$(echo "$env_var" | cut -d "=" -f 1)
 
 # 使用双括号可以用正则匹配符
