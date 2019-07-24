@@ -3,6 +3,8 @@
 #
 FROM java-base:latest
 
+EXPOSE 9092
+
 # ENV
 ENV KAFKA_VERSION=kafka_2.12-2.3.0
 

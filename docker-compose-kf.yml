@@ -1,0 +1,55 @@
+# (https://docs.docker.com/compose/compose-file/#extension-fields)
+version: "3.4"
+
+services:
+  kf1:
+    image: kafka:latest
+    hostname: kf1
+    container_name: kf1
+    ports:
+      - 9091:9092
+    volumes:
+      - ./server.properties.1:/kafka/kafka_2.12-2.3.0/config/server.properties
+    external_links:
+      - zoo1
+      - zoo2
+      - zoo3
+    restart: always
+    networks:
+      - "mynet1"
+
+  kf2:
+    image: kafka:latest
+    hostname: kf2
+    container_name: kf2
+    ports:
+      - 9092:9092
+    volumes:
+      - ./server.properties.2:/kafka/kafka_2.12-2.3.0/config/server.properties
+    external_links:
+      - zoo1
+      - zoo2
+      - zoo3
+    restart: always
+    networks:
+      - "mynet1"
+
+  kf3:
+    image: kafka:latest
+    hostname: kf3
+    container_name: kf3
+    ports:
+      - 9093:9092
+    volumes:
+      - ./server.properties.3:/kafka/kafka_2.12-2.3.0/config/server.properties
+    external_links:
+      - zoo1
+      - zoo2
+      - zoo3
+    restart: always
+    networks:
+      - "mynet1"
+
+networks:
+  mynet1:
+    driver: bridge
