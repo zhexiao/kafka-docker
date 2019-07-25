@@ -2,21 +2,23 @@
 
 function update_config() {
     # 更新配置文件的函数
-    env_name=$1
-    env_val=$2
-    config_file=$3
+    config_name=$1
+    config_val=$2
+    filename=$3
 
-    echo "[Configuring] $env_name in $config_file"
+    echo "[Configuring] $env_name in $filename"
     
     # 如果配置名在文件里面找到了
-    if grep -E -q "^#?$env_name=.*" "$config_file"
+    if grep -E -q "^#?$config_name=.*" "$filename"
     then
+    	echo "update $config_name | $config_val | $filename"
     	# 直接替换配置的值
-    	sed -r -i "s/^#?$env_name=.*/$env_name=$env_val/g" "$config_file"
+    	sed -r -i "s/^#?$config_name=.*/$config_name=$config_val/g" "$filename"
     # 如果配置里面不存在配置
     else
     	# 追加到文件尾部
-        echo "$env_name=$env_val" >> "$config_file"
+    	echo "append $config_name | $config_val | $filename"
+        echo "$config_name=$config_val" >> "$filename"
     fi
 }
 
@@ -36,10 +38,19 @@ then
     continue
 fi
 
+# 如果是以KAFKA为头的变量名
 if [[ $env_name =~ ^KAFKA_ ]]
 then
-    env_val=$(echo "$env_var" | cut -d "=" -f 2)
-    update_config "$env_name" "$env_val" "server.properties.3"
+	# 把KAFKA_BROKER_ID=10转换成broker.id=10  
+	# 按_分割取后面的所有值，把所有的大写转成小写，把所有的_转换成.
+    env_full=$(echo "$env_var" |  cut -d _ -f 2- | tr '[:upper:]' '[:lower:]' | tr _ .)
+
+    # 读取变量名和变量值
+    config_name=$(echo "$env_full" | cut -d "=" -f 1)
+    config_val=$(echo "$env_full" | cut -d "=" -f 2)
+
+    # 更新变量文件
+    update_config "$config_name" "$config_val" "server.properties.3"
 fi
 
 done
