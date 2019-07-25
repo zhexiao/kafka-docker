@@ -8,10 +8,15 @@ function update_config() {
 
     echo "[Configuring] $env_name in $config_file"
     
-    # 如果配置名在文件里面找到了，则直接替换
-    if grep -E  "^#?$env_name=.*" "$config_file"
+    # 如果配置名在文件里面找到了
+    if grep -E -q "^#?$env_name=.*" "$config_file"
     then
-    	echo "find env in file"
+    	# 直接替换配置的值
+    	sed -r -i "s/^#?$env_name=.*/$env_name=$env_val/g" "$config_file"
+    # 如果配置里面不存在配置
+    else
+    	# 追加到文件尾部
+        echo "$env_name=$env_val" >> "$config_file"
     fi
 }
 
