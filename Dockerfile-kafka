@@ -14,13 +14,9 @@ ADD ./pkg/${KAFKA_VERSION}.tgz .
 # ENV
 ENV KAFKA_HOME=/kafka/${KAFKA_VERSION}
 
-# 复制配置文件
-COPY server.properties.example ${KAFKA_HOME}/config/server.properties
-
 # 修改配置文件
 COPY kafka_configuration.sh /tmp/
 RUN chmod a+x /tmp/*.sh && mv /tmp/kafka_configuration.sh /usr/bin 	
 
 # 启动
-ENTRYPOINT 
 CMD kafka_configuration.sh && ${KAFKA_HOME}/bin/kafka-server-start.sh ${KAFKA_HOME}/config/server.properties
