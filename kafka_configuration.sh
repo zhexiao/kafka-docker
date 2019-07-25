@@ -50,8 +50,7 @@ then
     config_val=$(echo "$env_full" | cut -d "=" -f 2)
 
     # 更新变量文件
-    # update_config "$config_name" "$config_val" "$KAFKA_HOME/config/server.properties"
-    update_config "$config_name" "$config_val" "server.properties.3"
+    update_config "$config_name" "$config_val" "$KAFKA_HOME/config/server.properties"
 fi
 
 done
