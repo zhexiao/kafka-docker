@@ -20,7 +20,7 @@ COPY server.properties.example ${KAFKA_HOME}/config/server.properties
 # 修改配置文件
 COPY kafka_configuration.sh /tmp/
 RUN chmod a+x /tmp/*.sh && mv /tmp/kafka_configuration.sh /usr/bin 	
-RUN kafka_configuration.sh
 
 # 启动
-CMD ${KAFKA_HOME}/bin/kafka-server-start.sh ${KAFKA_HOME}/config/server.properties
+ENTRYPOINT 
+CMD kafka_configuration.sh && ${KAFKA_HOME}/bin/kafka-server-start.sh ${KAFKA_HOME}/config/server.properties

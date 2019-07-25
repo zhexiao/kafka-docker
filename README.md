@@ -31,20 +31,19 @@ $ docker build -t java-base -f Dockerfile-java-base .
 $ docker build -t kafka -f Dockerfile-kafka .
 ```
 
-按需复制server.properties文件，命名为server.properties.n
+更新kafka compose的配置
 ```
-$ cp server.properties.example server.properties.1
-$ cp server.properties.example server.properties.2
-$ cp server.properties.example server.properties.3
+1. KAFKA_BROKER_ID: n
+2. KAFKA_LISTENERS: PLAINTEXT://:9092
+3. KAFKA_ZOOKEEPER_CONNECT: zoo1:2181,zoo2:2181,zoo3:2181
 ```
 
-为每个新复制的文件更新配置
+环境配置规则如下，以KAFKA_BROKER_ID为例
 ```
-# 保证每个文件的broker唯一，n=1或2或3....
-1. broker.id=n 
-
-#通过docker-compose-zk.yml启动,需要外联zoo1,zoo2,zoo3
-2. zookeeper.connect=zoo1:2181,zoo2:2181,zoo3:2181 
+1. 默认读取以KAFKA_开头的变量，然后格式化的时候去掉KAFKA_
+2. 将BROKER_ID转为小写broker_id
+3. 把 _ 以 . 号替换
+4. 得到配置参数 broker.id
 ```
 
 # 启动整套服务
