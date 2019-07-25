@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash -e
 
 function update_config() {
     # 更新配置文件的函数
@@ -12,8 +12,8 @@ function update_config() {
     if grep -E -q "^#?$config_name=.*" "$filename"
     then
     	echo "update $config_name | $config_val | $filename"
-    	# 直接替换配置的值
-    	sed -r -i "s/^#?$config_name=.*/$config_name=$config_val/g" "$filename"
+    	# 直接替换配置的值(因为替换的字符串可能包含有分隔符/，所以我们把分隔符s/a/b/g换成s@a@b@g)
+    	sed -r -i "s@^#?$config_name=.*@$config_name=$config_val@g" "$filename"
     # 如果配置里面不存在配置
     else
     	# 追加到文件尾部
@@ -50,6 +50,7 @@ then
     config_val=$(echo "$env_full" | cut -d "=" -f 2)
 
     # 更新变量文件
+    # update_config "$config_name" "$config_val" "$KAFKA_HOME/config/server.properties"
     update_config "$config_name" "$config_val" "server.properties.3"
 fi
 

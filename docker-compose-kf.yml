@@ -8,8 +8,10 @@ services:
     container_name: kf1
     ports:
       - 9091:9092
-    volumes:
-      - ./server.properties.1:/kafka/kafka_2.12-2.3.0/config/server.properties
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_LISTENERS: PLAINTEXT://:9092
+      KAFKA_ZOOKEEPER_CONNECT: zoo1:2181,zoo2:2181,zoo3:2181
     external_links:
       - zoo1
       - zoo2
@@ -18,37 +20,37 @@ services:
     networks:
       - "mynet1"
 
-  kf2:
-    image: kafka:latest
-    hostname: kf2
-    container_name: kf2
-    ports:
-      - 9092:9092
-    volumes:
-      - ./server.properties.2:/kafka/kafka_2.12-2.3.0/config/server.properties
-    external_links:
-      - zoo1
-      - zoo2
-      - zoo3
-    restart: always
-    networks:
-      - "mynet1"
+  # kf2:
+  #   image: kafka:latest
+  #   hostname: kf2
+  #   container_name: kf2
+  #   ports:
+  #     - 9092:9092
+  #   volumes:
+  #     - ./server.properties.2:/kafka/kafka_2.12-2.3.0/config/server.properties
+  #   external_links:
+  #     - zoo1
+  #     - zoo2
+  #     - zoo3
+  #   restart: always
+  #   networks:
+  #     - "mynet1"
 
-  kf3:
-    image: kafka:latest
-    hostname: kf3
-    container_name: kf3
-    ports:
-      - 9093:9092
-    volumes:
-      - ./server.properties.3:/kafka/kafka_2.12-2.3.0/config/server.properties
-    external_links:
-      - zoo1
-      - zoo2
-      - zoo3
-    restart: always
-    networks:
-      - "mynet1"
+  # kf3:
+  #   image: kafka:latest
+  #   hostname: kf3
+  #   container_name: kf3
+  #   ports:
+  #     - 9093:9092
+  #   volumes:
+  #     - ./server.properties.3:/kafka/kafka_2.12-2.3.0/config/server.properties
+  #   external_links:
+  #     - zoo1
+  #     - zoo2
+  #     - zoo3
+  #   restart: always
+  #   networks:
+  #     - "mynet1"
 
 networks:
   mynet1:
