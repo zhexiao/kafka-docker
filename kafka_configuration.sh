@@ -41,8 +41,8 @@ fi
 # 如果是以KAFKA为头的变量名
 if [[ $env_name =~ ^KAFKA_ ]]
 then
-	# 把KAFKA_BROKER_ID=10转换成broker.id=10  
-	# 按_分割取后面的所有值，把所有的大写转成小写，把所有的_转换成.
+    # 把KAFKA_BROKER_ID=10转换成broker.id=10  
+    # 按_分割取后面的所有值，把所有的大写转成小写，把所有的_转换成.
     env_full=$(echo "$env_var" |  cut -d _ -f 2- | tr '[:upper:]' '[:lower:]' | tr _ .)
 
     # 读取变量名和变量值
