@@ -9,7 +9,7 @@ $ docker pull zookeeper:3.5.5
 
 使用docker-compose.yml启动ZK集群
 ```
-$ docker-compose -f docker-compose-zk.yml up
+$ docker-compose -f docker-compose-zk.yml up -d
 ```
 
 集群状态，可以看到mode为follower或者leader
@@ -49,10 +49,10 @@ $ docker build -t kafka -f Dockerfile-kafka .
 # 启动整套服务
 ```
 # zookeeper
-$ docker-compose -f docker-compose-zk.yml up
+$ docker-compose -f docker-compose-zk.yml up -d
 
 # kafka
-$ docker-compose -f docker-compose-kf.yml up
+$ docker-compose -f docker-compose-kf.yml up -d
 
 # 创建topic
 $ docker exec -it kf1 /kafka/kafka_2.12-2.3.0/bin/kafka-topics.sh --create --zookeeper zoo1:2181,zoo2:2181,zoo3:2181 --replication-factor 3 --partitions 1 --topic mytest
@@ -61,4 +61,15 @@ $ docker exec -it kf1 /kafka/kafka_2.12-2.3.0/bin/kafka-topics.sh --describe --z
 # 消息测试
 $ docker exec -it kf1 /kafka/kafka_2.12-2.3.0/bin/kafka-console-consumer.sh --bootstrap-server kf1:9092,kf2:9092,kf3:9092 --topic mytest --from-beginning
 $ docker exec -it kf1 /kafka/kafka_2.12-2.3.0/bin/kafka-console-producer.sh --broker-list kf1:9092,kf2:9092,kf3:9092 --topic mytest
+```
+
+# 启动与关闭
+```
+# 关闭
+$ docker-compose -f docker-compose-zk.yml stop
+$ docker-compose -f docker-compose-kf.yml stop
+
+# 启动
+$ docker-compose -f docker-compose-zk.yml start
+$ docker-compose -f docker-compose-kf.yml start
 ```
