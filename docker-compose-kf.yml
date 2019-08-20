@@ -1,6 +1,13 @@
 # (https://docs.docker.com/compose/compose-file/#extension-fields)
 version: "3.4"
 
+x-logging:
+  &default-logging
+  driver: json-file
+  options:
+    max-size: '12m'
+    max-file: '5'
+
 services:
   kf1:
     image: kafka:latest
@@ -17,6 +24,7 @@ services:
       - zoo2
       - zoo3
     restart: always
+    logging: *default-logging
     networks:
       - "mynet1"
 
@@ -35,6 +43,7 @@ services:
       - zoo2
       - zoo3
     restart: always
+    logging: *default-logging
     networks:
       - "mynet1"
 
@@ -53,6 +62,7 @@ services:
       - zoo2
       - zoo3
     restart: always
+    logging: *default-logging
     networks:
       - "mynet1"
 

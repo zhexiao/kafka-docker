@@ -1,6 +1,13 @@
 # (https://docs.docker.com/compose/compose-file/#extension-fields)
 version: '3.4'
 
+x-logging:
+  &default-logging
+  driver: json-file
+  options:
+    max-size: '12m'
+    max-file: '5'
+
 services:
   zoo1:
     image: zookeeper:3.5.5
@@ -12,6 +19,7 @@ services:
       ZOO_MY_ID: 1
       ZOO_SERVERS: server.1=0.0.0.0:2888:3888;2181 server.2=zoo2:2888:3888;2181 server.3=zoo3:2888:3888;2181
     restart: always
+    logging: *default-logging
     networks:
       - "mynet1"
 
@@ -27,6 +35,7 @@ services:
     restart: always
     depends_on:
       - zoo1
+    logging: *default-logging
     networks:
       - "mynet1"
 
@@ -42,6 +51,7 @@ services:
     restart: always
     depends_on:
       - zoo2
+    logging: *default-logging
     networks:
       - "mynet1"
 
